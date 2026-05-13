@@ -145,10 +145,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Products Section */}
-      <section className="py-20 lg:py-32 bg-muted">
+      {/* Card de produtos */}
+      <section id="card" className="py-20 lg:py-32 bg-muted">
         <div className="container mx-auto px-4 lg:px-8">
-
+            
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
               Nossas <span className="text-primary">Soluções</span>

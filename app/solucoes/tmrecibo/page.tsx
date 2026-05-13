@@ -65,7 +65,7 @@ export default function TMReciboPage() {
 
         <div className="container mx-auto px-4 py-8 md:py-16 relative z-10">
           <Link 
-            href="/solucoes" 
+            href="/#card" 
             className="inline-flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-8 transition-colors group"
           >
             <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
