@@ -1,5 +1,7 @@
 "use client"
 
+import { usePlano } from "@/src/hooks/usePlano"
+import { supabase } from "@/src/lib/supabase"
 import Image from "next/image"
 import Link from "next/link"
 import { 
@@ -23,6 +25,8 @@ import { CheckManagementInterface } from "@/components/check-management-interfac
 
 export default function TMChequePage() {
   const [activeScreenshot, setActiveScreenshot] = useState(0)
+
+  const { plano } = usePlano("tmcheque")
 
   const recursos = [
     { icon: Printer, text: "Impressão Gráfica ou Matricial" },
@@ -311,7 +315,7 @@ export default function TMChequePage() {
                 <div className="mb-8">
                   <span className="text-sm text-primary-foreground/70">Valor:</span>
                   <div className="text-4xl font-bold text-accent">
-                    R$ 297,00
+                   {plano?.preco ? `R$ ${plano.preco.toFixed(2).replace(".", ",")}` : "Carregando..."}
                   </div>
                 </div>
                 <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">

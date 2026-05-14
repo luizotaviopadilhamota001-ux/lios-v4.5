@@ -1,7 +1,10 @@
 "use client"
 
+import { usePlano } from "@/src/hooks/usePlano"
 import Image from "next/image"
 import Link from "next/link"
+
+
 import { 
   ArrowLeft, 
   Download, 
@@ -22,6 +25,8 @@ import { useState } from "react"
 import { POSInterface } from "@/components/pos-interface"
 
 export default function FrenteCaixaPage() {
+  const { plano } = usePlano("tmfrentecaixa")
+
   const [activeScreenshot, setActiveScreenshot] = useState(0)
 
   const recursos = [
@@ -332,7 +337,7 @@ export default function FrenteCaixaPage() {
                 <div className="mb-8">
                   <span className="text-sm text-primary-foreground/70">Valor:</span>
                   <div className="text-4xl font-bold text-accent">
-                    R$ 298,00
+                    R$ {plano?.preco?.toFixed(2).replace(".", ",")}
                   </div>
                 </div>
                 <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">

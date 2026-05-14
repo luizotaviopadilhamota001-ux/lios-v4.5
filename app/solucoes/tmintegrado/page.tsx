@@ -1,13 +1,14 @@
 "use client"
 
+import { usePlano } from "@/src/hooks/usePlano"
 import Image from "next/image"
 import Link from "next/link"
-import { 
-  ArrowLeft, 
-  Download, 
-  Check, 
-  FileText, 
-  Shield, 
+import {
+  ArrowLeft,
+  Download,
+  Check,
+  FileText,
+  Shield,
   PlayCircle,
   BarChart3,
   Package,
@@ -19,12 +20,15 @@ import {
   ShoppingCart,
   TrendingUp,
   Layers,
-  Copy
+  Copy,
 } from "lucide-react"
+
 import { useState } from "react"
 import { IntegratedDashboardInterface } from "@/components/integrated-dashboard-interface"
 
 export default function TMIntegradoPage() {
+  const { plano } = usePlano("tmintegrado")
+
   const [activeScreenshot, setActiveScreenshot] = useState(0)
 
   const recursos = [
@@ -289,7 +293,7 @@ export default function TMIntegradoPage() {
                 <div className="mb-8">
                   <span className="text-sm text-primary-foreground/70">Valor:</span>
                   <div className="text-4xl font-bold text-accent">
-                    R$ 125,00
+                    R$ {plano?.preco?.toFixed(2).replace(".", ",")}
                   </div>
                 </div>
                 <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">

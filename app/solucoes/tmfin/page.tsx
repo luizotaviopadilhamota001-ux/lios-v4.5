@@ -1,5 +1,7 @@
 "use client"
 
+import { usePlano } from "@/src/hooks/usePlano"
+import { supabase } from "@/src/lib/supabase"
 import Image from "next/image"
 import Link from "next/link"
 import { 
@@ -25,6 +27,7 @@ import { FinancialDashboardInterface } from "@/components/TM-financeiro"
 
 export default function TMFinPage() {
   const [activeScreenshot, setActiveScreenshot] = useState(0)
+  const { plano } = usePlano("tmfin")
 
   const recursos = [
     { icon: CreditCard, text: "Contas a pagar" },
@@ -303,7 +306,7 @@ export default function TMFinPage() {
                 <div className="mb-8">
                   <span className="text-sm text-primary-foreground/70">Valor:</span>
                   <div className="text-4xl font-bold text-accent">
-                    R$ 329,00
+                    {plano?.preco ? `R$ ${plano.preco.toFixed(2).replace(".", ",")}` : "Carregando..."}
                   </div>
                 </div>
                 <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
