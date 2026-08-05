@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin } from "lucide-react"
 
 const products = [
   { name: "TM Integrado", href: "/solucoes/tmintegrado" },
-  { name: "Frente de Caixa", href: "/solucoes/frentecaixa" },
+  { name: "Frente de Caixa", href: "/solucoes/tmfrentecaixa" },
   { name: "TM Ponto", href: "/solucoes/tmponto" },
   { name: "TM Cheque", href: "/solucoes/tmcheque" },
   { name: "TM Financeiro", href: "/solucoes/tmfin" },
