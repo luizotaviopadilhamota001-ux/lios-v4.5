@@ -1,242 +1,195 @@
 import Link from "next/link"
 import Image from "next/image"
+import { ArrowRight, Check, Phone, ShoppingCart } from "lucide-react"
 import {
-  ArrowRight,
-  CheckCircle,
-  Monitor,
-  Clock,
-  FileCheck,
-  CreditCard,
-  Calculator,
-  Receipt,
-} from "lucide-react"
+  caminhoProduto,
+  rotuloPeriodo,
+  tmCheque,
+  tmFin,
+  tmFrenteCaixa,
+  tmIntegrado,
+  tmPonto,
+  tmRecibo,
+  type Produto,
+} from "@/src/data/produtos"
+import { telefonePrincipal } from "@/src/data/site"
+import { buscarPreco, formatarPreco } from "@/src/lib/planos"
 
-const products = [
+export const revalidate = 300
+
+const grupos = [
   {
-    name: "TM Integrado",
-    description:
-      "ERP completo para gestão financeira, estoque, vendas e emissão fiscal.",
-    href: "/solucoes/tmintegrado",
-    icon: Monitor,
+    titulo: "Quero um sistema para a empresa toda",
+    texto: "Estoque, vendas, finanças e ordem de serviço no mesmo lugar.",
+    produtos: [tmIntegrado],
   },
   {
-    name: "TM Frente de Caixa",
-    description:
-      "PDV moderno e rápido para otimizar atendimento e vendas.",
-    href: "/solucoes/tmfrentecaixa",
-    icon: CreditCard,
+    titulo: "Preciso organizar o financeiro e os papéis",
+    texto: "Do controle completo das contas até um recibo avulso.",
+    produtos: [tmFin, tmCheque, tmRecibo],
   },
   {
-    name: "TM Ponto",
-    description:
-      "Controle de ponto eletrônico simples, seguro e dentro da legislação.",
-    href: "/solucoes/tmponto",
-    icon: Clock,
+    titulo: "Vendo no balcão",
+    texto: "Um caixa simples para pequenos negócios.",
+    produtos: [tmFrenteCaixa],
   },
   {
-    name: "TM Cheque",
-    description:
-      "Gestão de cheques e recebimentos com mais controle e segurança.",
-    href: "/solucoes/tmcheque",
-    icon: FileCheck,
-  },
-  {
-    name: "TM Financeiro",
-    description:
-      "Controle financeiro empresarial com fluxo de caixa e relatórios completos.",
-    href: "/solucoes/tmfin",
-    icon: Calculator,
-  },
-  {
-    name: "TM Recibo",
-    description:
-      "Emissão rápida de recibos profissionais de forma prática e organizada.",
-    href: "/solucoes/tmrecibo",
-    icon: Receipt,
+    titulo: "Preciso controlar o ponto",
+    texto: "Entradas, saídas e horários da equipe.",
+    produtos: [tmPonto],
   },
 ]
 
-const features = [
-  "Mais de 20 anos de experiência",
-  "Suporte técnico especializado",
-  "Atualizações constantes",
-  "Integração entre sistemas",
-  "Backup automático",
-  "Treinamento incluso",
+const oferta = [
+  "Teste grátis antes de comprar",
+  "Preço publicado em cada sistema",
+  "Suporte incluído na licença",
+  "Devolução em até 30 dias, conforme o sistema",
 ]
 
-export default function HomePage() {
+function LinhaProduto({ produto, preco }: { produto: Produto; preco: number | null }) {
+  const tela = produto.telas[0]
+
+  return (
+    <Link href={caminhoProduto(produto)} className="group flex items-start gap-4 py-6 sm:gap-6">
+      <div className="flex aspect-[4/3] w-24 shrink-0 items-center justify-center overflow-hidden rounded bg-muted sm:w-36">
+        {tela ? (
+          <Image
+            src={tela.src}
+            alt=""
+            width={tela.width}
+            height={tela.height}
+            sizes="(min-width: 640px) 144px, 96px"
+            className="h-full w-full object-cover object-left-top"
+          />
+        ) : (
+          <ShoppingCart className="h-8 w-8 text-primary" />
+        )}
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <h4 className="text-xl font-bold text-foreground group-hover:text-primary group-hover:underline group-hover:underline-offset-4">
+          {produto.nome}
+        </h4>
+        <p className="mt-1 leading-relaxed text-muted-foreground">{produto.resumo}</p>
+        {preco !== null && (
+          <p className="mt-2 text-sm font-semibold tabular-nums text-foreground">
+            {formatarPreco(preco)} {rotuloPeriodo[produto.licenca.periodo]}
+          </p>
+        )}
+      </div>
+
+      <ArrowRight className="mt-1.5 hidden h-5 w-5 shrink-0 text-primary transition-transform group-hover:translate-x-1 sm:block" />
+    </Link>
+  )
+}
+
+export default async function HomePage() {
+  const precos = new Map(
+    await Promise.all(
+      grupos
+        .flatMap((grupo) => grupo.produtos)
+        .map(async (produto) => [produto.slug, await buscarPreco(produto.slug)] as const),
+    ),
+  )
+
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-primary relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      <section className="bg-primary text-primary-foreground overflow-hidden">
+        <div className="container mx-auto grid items-center gap-10 px-4 py-12 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-20">
+          <div>
+            <h1 className="text-4xl font-bold leading-tight md:text-5xl text-balance">
+              Programas para Windows que organizam o dia a dia da sua empresa
+            </h1>
 
-        <div className="container mx-auto px-4 lg:px-8 py-16 lg:py-24 relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
-            <div>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight text-balance">
-                Soluções em Software para o{" "}
-                <span className="text-accent">Sucesso</span> da Sua Empresa
-              </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/90">
+              Cheques, recibos, ponto, caixa, financeiro e estoque. Feitos em Chapecó há mais de 20 anos.
+              Baixe, teste de graça e só pague se servir para você.
+            </p>
 
-              <p className="mt-6 text-lg text-primary-foreground/80 leading-relaxed max-w-xl">
-                Há mais de 20 anos desenvolvendo sistemas de gestão empresarial
-                que transformam a maneira como você administra seu negócio.
-                Tecnologia confiável e suporte especializado.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  href="/contato"
-                  className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] hover:bg-accent/90 transition-all"
-                >
-                  Fale Conosco
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <Link
-                  href="/sobre"
-                  className="inline-flex items-center gap-2 bg-primary-foreground/10 text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary-foreground/20 transition-colors"
-                >
-                  Conheça a LIOS
-                </Link>
-              </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <a href="#sistemas" className="botao-primario">
+                Escolher um sistema
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <Link href="/contato" className="botao-secundario">
+                Falar com a LIOS
+              </Link>
             </div>
+          </div>
 
-            <div className="relative">
-              <div className="relative w-[220px] md:w-[300px] lg:w-[360px] aspect-square mx-auto lg:ml-auto">
-                
-                <div className="absolute inset-0 bg-yellow-400/20 blur-3xl rounded-full" />
-
-                <Image
-                  src="/images/brasao-tp.png"
-                  alt="LIOS Sistemas - Software de Gestão"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-
-              <div className="absolute -bottom-6 -left-6 bg-accent text-accent-foreground px-6 py-3 rounded-xl shadow-xl">
-                <span className="font-bold text-2xl">+20</span>
-                <span className="block text-sm">anos de mercado</span>
-              </div>
-            </div>
+          <div className="relative lg:h-[440px]">
+            <Image
+              src={tmFin.telas[0].src}
+              alt="Tela real do TmFin, com o menu financeiro aberto"
+              width={tmFin.telas[0].width}
+              height={tmFin.telas[0].height}
+              priority
+              sizes="(min-width: 1024px) 560px, 100vw"
+              className="h-auto w-full rounded shadow-2xl lg:absolute lg:left-0 lg:top-0 lg:w-[86%]"
+            />
+            <Image
+              src={tmRecibo.telas[0].src}
+              alt="Tela real do TmRecibo, com um recibo preenchido e o valor por extenso"
+              width={tmRecibo.telas[0].width}
+              height={tmRecibo.telas[0].height}
+              sizes="340px"
+              className="hidden h-auto w-[56%] rounded shadow-2xl lg:absolute lg:bottom-0 lg:right-0 lg:block"
+            />
           </div>
         </div>
       </section>
 
-      {/* Features Bar */}
-      <section className="bg-secondary py-6">
+      <section className="bg-secondary py-6 text-secondary-foreground">
+        <ul className="container mx-auto grid gap-x-8 gap-y-3 px-4 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+          {oferta.map((item) => (
+            <li key={item} className="flex items-start gap-2 font-medium">
+              <Check className="mt-1 h-4 w-4 shrink-0 text-accent" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="sistemas" className="py-14 lg:py-24">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3">
-            {features.map((feature) => (
-              <div
-                key={feature}
-                className="flex items-center gap-2 text-primary-foreground/90"
-              >
-                <CheckCircle className="w-4 h-4 text-accent" />
-                <span className="text-sm font-medium">{feature}</span>
+          <h2 className="max-w-2xl text-3xl font-bold text-foreground lg:text-4xl text-balance">
+            Escolha pelo que você precisa resolver
+          </h2>
+
+          <div className="mt-10 divide-y-2 divide-primary/15 border-t-2 border-primary/15">
+            {grupos.map((grupo) => (
+              <div key={grupo.titulo} className="grid gap-x-12 pt-8 pb-4 lg:grid-cols-12">
+                <div className="lg:col-span-4 lg:pb-8">
+                  <h3 className="text-xl font-bold text-primary text-balance">{grupo.titulo}</h3>
+                  <p className="mt-2 text-muted-foreground">{grupo.texto}</p>
+                </div>
+                <div className="divide-y divide-border lg:col-span-8">
+                  {grupo.produtos.map((produto) => (
+                    <LinhaProduto key={produto.slug} produto={produto} preco={precos.get(produto.slug) ?? null} />
+                  ))}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Card de produtos */}
-      <section id="card" className="py-20 lg:py-32 bg-muted">
+      <section className="bg-primary py-14 text-primary-foreground lg:py-20">
         <div className="container mx-auto px-4 lg:px-8">
-            
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
-              Nossas <span className="text-primary">Soluções</span>
-            </h2>
-
-            <p className="mt-4 text-muted-foreground text-lg">
-              Sistemas desenvolvidos para atender todas as necessidades da sua empresa,
-              do controle financeiro à gestão completa.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {products.map((product) => {
-              const Icon = product.icon
-
-              return (
-                <Link
-                  key={product.href}
-                  href={product.href}
-                  className="group flex flex-col h-full bg-card rounded-2xl overflow-hidden border border-border/40 shadow-sm hover:shadow-2xl hover:border-primary/20 transition-all duration-300 hover:-translate-y-2"
-                >
-                  
-                  {/* Card Visual */}
-                  <div className="relative h-40 overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/10 flex items-center justify-center">
-
-                    <div className="absolute w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
-
-                    <div className="absolute top-4 right-4 w-20 h-20 bg-primary/10 rounded-full blur-2xl" />
-
-                    <div className="w-20 h-20 rounded-2xl bg-background border border-border/50 shadow-lg flex items-center justify-center relative z-10 group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="w-10 h-10 text-accent" />
-                    </div>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="flex flex-col flex-grow p-6 lg:p-7">
-
-                    <h3 className="text-xl font-bold text-foreground leading-tight group-hover:text-accent transition-colors">
-                      {product.name}
-                    </h3>
-
-                    <p className="mt-3 text-muted-foreground text-sm lg:text-base leading-relaxed flex-grow">
-                      {product.description}
-                    </p>
-
-                    <div className="flex items-center gap-2 text-primary font-semibold text-sm group-hover:text-accent transition-colors pt-5 mt-5 border-t border-border/30">
-                      Saiba mais
-
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                    </div>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 lg:py-24 bg-primary">
-        <div className="container mx-auto px-4 lg:px-8 text-center">
-
-          <h2 className="text-3xl lg:text-4xl font-bold text-primary-foreground text-balance">
-            Pronto para Transformar sua Gestão Empresarial?
-          </h2>
-
-          <p className="mt-4 text-lg text-primary-foreground/80 max-w-2xl mx-auto">
-            Entre em contato conosco e descubra como nossas soluções podem
-            otimizar os processos da sua empresa.
+          <h2 className="text-3xl font-bold lg:text-4xl text-balance">Não sabe qual escolher?</h2>
+          <p className="mt-4 max-w-2xl text-lg text-primary-foreground/90">
+            Conte o que a sua empresa precisa e a LIOS indica o sistema certo.
           </p>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            
-            <Link
-              href="/contato"
-              className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-3.5 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] hover:bg-accent/90 transition-all"
-            >
-              Solicitar Demonstração
-
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <a
-              href="tel:+554432263769"
-              className="inline-flex items-center gap-2 bg-primary-foreground/10 text-primary-foreground px-8 py-3.5 rounded-lg font-semibold hover:bg-primary-foreground/20 transition-colors"
-            >
-              (+55) 49 9956-8072
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href={telefonePrincipal.href} className="botao-primario">
+              <Phone className="h-5 w-5" />
+              {telefonePrincipal.exibicao}
             </a>
+            <Link href="/contato" className="botao-secundario">
+              Ver outros contatos
+            </Link>
           </div>
         </div>
       </section>

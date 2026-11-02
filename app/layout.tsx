@@ -10,9 +10,12 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "LIOS Sistemas - Soluções em Software para sua Empresa",
+  title: {
+    default: "LIOS Sistemas: programas de gestão para Windows",
+    template: "%s | LIOS Sistemas",
+  },
   description:
-    "Há mais de 20 anos desenvolvendo sistemas de gestão empresarial. TM Integrado, Frente de Caixa, TM Ponto, TM Cheque, TM Financeiro e muito mais.",
+    "Programas de gestão para Windows, feitos em Chapecó há mais de 20 anos: TmIntegrado, TmFrenteCaixa, TmPonto, TmCheque, TmFin e TmRecibo. Teste grátis.",
 }
 
 export default function RootLayout({
@@ -23,8 +26,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${inter.variable} bg-background`}>
       <body className="font-sans min-h-screen flex flex-col">
+        <a
+          href="#conteudo"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-3 focus:font-semibold focus:text-accent-foreground"
+        >
+          Pular para o conteúdo
+        </a>
         <Header />
-        <main className="flex-1">
+        <main id="conteudo" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
         <Footer />

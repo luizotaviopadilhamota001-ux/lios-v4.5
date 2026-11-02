@@ -1,150 +1,89 @@
-"use client"
+import type { Metadata } from "next"
+import { Clock, Mail, MapPin, Phone } from "lucide-react"
+import { emails, horarioAtendimento, telefones } from "@/src/data/site"
 
-import { Mail, Phone, MapPin, Clock } from "lucide-react"
+export const metadata: Metadata = {
+  title: "Contato",
+  description: "Fale com a LIOS Sistemas por telefone ou e-mail. Atendimento de segunda a sexta, das 8h às 18h.",
+}
+
+const linkClass =
+  "inline-flex min-h-[44px] items-center text-lg font-semibold text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary [overflow-wrap:anywhere]"
 
 export default function ContatoPage() {
   return (
-    <div className="min-h-screen">
-
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-primary text-primary-foreground py-20 md:py-28">
-
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-
-        <div className="container relative mx-auto px-4">
-
-          <div className="max-w-3xl mx-auto text-center">
-
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Entre em Contato
-            </h1>
-
-            <p className="text-xl text-primary-foreground/80 leading-relaxed">
-              Estamos prontos para ajudar sua empresa a crescer.
-              Fale conosco e descubra a solução ideal para seu negócio.
-            </p>
-
-          </div>
+    <>
+      <section className="bg-primary text-primary-foreground py-14 md:py-20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <h1 className="text-4xl md:text-5xl font-bold">Fale com a LIOS</h1>
+          <p className="mt-4 max-w-2xl text-xl text-primary-foreground/90 leading-relaxed">
+            Tire suas dúvidas e descubra qual sistema serve para o seu negócio.
+          </p>
         </div>
       </section>
 
-      {/* Contact Cards */}
-      <section className="py-20 md:py-28 bg-muted/30">
-
-        <div className="container mx-auto px-4">
-
-          <div className="max-w-5xl mx-auto">
-
-            <div className="text-center mb-14">
-
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                Informações de Contato
-              </h2>
-
-              <p className="mt-4 text-lg text-muted-foreground">
-                Entre em contato pelos canais abaixo.
-              </p>
-
+      <section className="py-14 md:py-20">
+        <div className="container mx-auto max-w-4xl px-4 lg:px-8">
+          <dl className="divide-y divide-border border-y border-border">
+            <div className="grid gap-3 py-8 md:grid-cols-3">
+              <dt className="flex items-center gap-3 text-lg font-bold text-foreground md:items-start">
+                <Phone className="h-5 w-5 shrink-0 text-primary md:mt-1" />
+                Telefone
+              </dt>
+              <dd className="flex flex-col items-start md:col-span-2">
+                {telefones.map((telefone) => (
+                  <a key={telefone.href} href={telefone.href} className={linkClass}>
+                    {telefone.exibicao}
+                  </a>
+                ))}
+              </dd>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-
-              {/* Telefone */}
-              <div className="group rounded-2xl border border-border/50 bg-card p-6 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center flex flex-col items-center justify-center">
-
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-5">
-                  <Phone className="h-6 w-6 text-primary" />
-                </div>
-
-                <h3 className="text-xl font-semibold mb-3">
-                  Telefone
-                </h3>
-
-                <p className="text-muted-foreground">
-                  (+55) 49 9956-8072
-                </p>
-
-                <p className="text-muted-foreground">
-                  (+55) 48 9671-1257
-                </p>
-
-              </div>
-
-              {/* Email */}
-              <div className="group rounded-2xl border border-border/50 bg-card p-6 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center flex flex-col items-center justify-center">
-
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-5">
-                  <Mail className="h-6 w-6 text-primary" />
-                </div>
-
-                <h3 className="text-xl font-semibold mb-3">
-                  E-mail
-                </h3>
-
-                <p className="text-muted-foreground">
-                  contato@lios.com.br
-                </p>
-
-                <p className="text-muted-foreground">
-                  suporte@lios.com.br
-                </p>
-
-              </div>
-
-              {/* Endereço */}
-              <div className="group rounded-2xl border border-border/50 bg-card p-6 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center flex flex-col items-center justify-center">
-
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-5">
-                  <MapPin className="h-6 w-6 text-primary" />
-                </div>
-
-                <h3 className="text-xl font-semibold mb-3">
-                  Endereço
-                </h3>
-
-                <p className="text-muted-foreground">
-                  
-                </p>
-
-                <p className="text-muted-foreground">
-                  Chapecó - SC
-                </p>
-
-                <p className="text-muted-foreground">
-                  CEP: 89800-000
-                </p>
-
-              </div>
-
-              {/* Horário */}
-              <div className="group rounded-2xl border border-border/50 bg-card p-6 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center flex flex-col items-center justify-center">
-
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-5">
-                  <Clock className="h-6 w-6 text-primary" />
-                </div>
-
-                <h3 className="text-xl font-semibold mb-3">
-                  Horário de Atendimento
-                </h3>
-
-                <p className="text-muted-foreground">
-                  Segunda a Sexta
-                </p>
-
-                <p className="text-muted-foreground">
-                  8h às 18h
-                </p>
-
-                <p className="text-muted-foreground">
-                  Atendimento remoto e suporte especializado
-                </p>
-
-              </div>
-
+            <div className="grid gap-3 py-8 md:grid-cols-3">
+              <dt className="flex items-center gap-3 text-lg font-bold text-foreground md:items-start">
+                <Mail className="h-5 w-5 shrink-0 text-primary md:mt-1" />
+                E-mail
+              </dt>
+              <dd className="flex flex-col items-start gap-1 md:col-span-2">
+                <span>
+                  <a href={`mailto:${emails.contato}`} className={linkClass}>
+                    {emails.contato}
+                  </a>
+                  <span className="block text-muted-foreground">Dúvidas, compras e comprovantes</span>
+                </span>
+                <span className="mt-2">
+                  <a href={`mailto:${emails.suporte}`} className={linkClass}>
+                    {emails.suporte}
+                  </a>
+                  <span className="block text-muted-foreground">Suporte de quem já usa os sistemas</span>
+                </span>
+              </dd>
             </div>
-          </div>
+
+            <div className="grid gap-3 py-8 md:grid-cols-3">
+              <dt className="flex items-center gap-3 text-lg font-bold text-foreground md:items-start">
+                <Clock className="h-5 w-5 shrink-0 text-primary md:mt-1" />
+                Atendimento
+              </dt>
+              <dd className="text-lg text-foreground md:col-span-2">
+                {horarioAtendimento}
+                <span className="block text-muted-foreground">Atendimento remoto e suporte especializado</span>
+              </dd>
+            </div>
+
+            <div className="grid gap-3 py-8 md:grid-cols-3">
+              <dt className="flex items-center gap-3 text-lg font-bold text-foreground md:items-start">
+                <MapPin className="h-5 w-5 shrink-0 text-primary md:mt-1" />
+                Endereço
+              </dt>
+              <dd className="text-lg text-foreground md:col-span-2">
+                Chapecó - SC
+                <span className="block text-muted-foreground">CEP: 89800-000</span>
+              </dd>
+            </div>
+          </dl>
         </div>
       </section>
-    </div>
+    </>
   )
 }

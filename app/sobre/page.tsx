@@ -3,7 +3,7 @@ import { Building2, Users, Target, Award } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Sobre Nós - LIOS",
+  title: "Sobre a LIOS",
   description: "Conheça a LIOS - empresa especializada em soluções de software para gestão empresarial.",
 }
 
@@ -50,11 +50,12 @@ export default function SobrePage() {
               <div className="relative w-[280px] md:w-[380px] lg:w-[450px] aspect-square mx-auto lg:ml-auto">
               
                 <Image
-                  src="/images/brasao.png"
-                  alt="LIOS - Soluções em Software"
-                  width={400}
-                  height={300}
-                  className="rounded-lg w-full h-auto"
+                  src="/images/brasao-tp.png"
+                  alt="Brasão da LIOS Sistemas"
+                  width={1254}
+                  height={1254}
+                  sizes="(min-width: 1024px) 450px, (min-width: 768px) 380px, 280px"
+                  className="w-full h-auto"
                 />
               </div>
             </div>
